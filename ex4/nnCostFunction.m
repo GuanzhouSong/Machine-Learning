@@ -1,4 +1,4 @@
-function [J grad] = nnCostFunction(nn_params, ...
+function [J ,grad] = nnCostFunction(nn_params, ...
                                    input_layer_size, ...
                                    hidden_layer_size, ...
                                    num_labels, ...
@@ -62,7 +62,11 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-
+X = [ones(m,1) X];
+p_1 = sigmoid(X * Theta1');
+p_1 = [ones(m,1) p_1];
+Hx = sigmoid(p_1 * Theta2');
+J = sum((-y.*log(Hx))-((1-y).*log(1-Hx)))./m;
 
 
 
