@@ -64,11 +64,12 @@ Theta2_grad = zeros(size(Theta2));
 
 
 X = [ones(m, 1) X];
-p_1 = sigmoid(X * Theta1');
-p_1 = [ones(m,1) p_1];
-p_2 = sigmoid(p_1 * Theta2');
+z_2=X * Theta1';
+p_2 = sigmoid(z_2);
+p_2 = [ones(m,1) p_2];
+z_3=p_2 * Theta2';
+p_3 = sigmoid(z_3);
 y_=zeros(m,num_labels);
-Hx=zeros(m,num_labels);
 for c = 1:m
     y_(c,y(c))=1;
 end
@@ -77,10 +78,17 @@ for i =1:m
 %    for j = 1:num_labels
 %        J = J + - y_(i, j) .* log(p_2(i, j)) - (1 - y_(i, j)) .* log(1 - p_2(i, j));
 %    end
-    J = J + sum(- y_(i, :) * log(p_2(i, :)') - (1 - y_(i, :)) * log(1 - p_2(i, :)'));
+    J = J + sum(- y_(i, :) * log(p_3(i, :)') - (1 - y_(i, :)) * log(1 - p_3(i, :)'));
 end
-J = J/m +lambda * sum(theta_.^2) ./(2*m)+ ;
-
+J = J/m +lambda./(2*m) * (sum(sum(Theta1(:,2:end).^2))+sum(sum(Theta2(:,2:end).^2)));
+delta3 = p_3 - y_;
+delta2 = (delta3*Theta2).*sigmoidGradient(p_2);
+delta2 = delta2(2:end);
+Delta2 = zeros(size(delta3,2),size(p_2,2));
+Delta1 = zeros(size(delta2,2),size(X,2));
+for t=1:m
+    Delta2 = Delta2 + delta3(t,:)' * 
+end
 
 
 
