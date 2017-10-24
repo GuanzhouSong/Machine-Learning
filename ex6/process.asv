@@ -1,0 +1,14 @@
+clear ; close all; clc
+dir2 ='spam/';
+X=zeros(100,1899);
+y=zeros(100,1);
+for i = 1:1000
+    dir2 ='spam/';
+    email_contents = readFile([dir2 num2str(i) '.txt']);
+    word_indices = processEmail(email_contents);
+    x = emailFeatures(word_indices);
+    X(i;:) = reshape(x,1,[])];
+    clc;
+    fprintf('Processing %d files',i);
+end
+save MySpamTrain;

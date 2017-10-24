@@ -18,8 +18,8 @@ word_indices = [];
 % Uncomment the following lines if you are working with raw emails with the
 % full headers
 
-% hdrstart = strfind(email_contents, ([char(10) char(10)]));
-% email_contents = email_contents(hdrstart(1):end);
+ hdrstart = strfind(email_contents, ([char(10) char(10)]));
+ email_contents = email_contents(hdrstart(1):end);
 
 % Lower case
 email_contents = lower(email_contents);
@@ -49,11 +49,9 @@ email_contents = regexprep(email_contents, '[$]+', 'dollar');
 % ========================== Tokenize Email ===========================
 
 % Output the email to screen as well
-fprintf('\n==== Processed Email ====\n\n');
 
 % Process file
 l = 0;
-
 while ~isempty(email_contents)
 
     % Tokenize and also get rid of any punctuation
@@ -96,7 +94,12 @@ while ~isempty(email_contents)
     % Note: You can use strcmp(str1, str2) to compare two strings (str1 and
     %       str2). It will return 1 only if the two strings are equivalent.
     %
-
+    for i = 1:length(vocabList)
+        if(strcmp(str,vocabList{i})==1)
+            word_indices = [word_indices;i];
+            continue;
+        end
+    end
 
 
 
@@ -108,18 +111,7 @@ while ~isempty(email_contents)
 
     % =============================================================
 
-
-    % Print to screen, ensuring that the output lines are not too long
-    if (l + length(str) + 1) > 78
-        fprintf('\n');
-        l = 0;
-    end
-    fprintf('%s ', str);
-    l = l + length(str) + 1;
-
 end
-
 % Print footer
-fprintf('\n\n=========================\n');
 
 end
