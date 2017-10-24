@@ -83,7 +83,7 @@ fprintf('Training Accuracy: %f\n', mean(double(p == y)) * 100);
 
 % Load the test dataset
 % You will have Xtest, ytest in your environment
-load('mySpamTest.mat');
+load('spamTest.mat');
 
 fprintf('\nEvaluating the trained Linear SVM on a test set ...\n')
 
@@ -125,7 +125,7 @@ pause;
 % Set the file to be read in (change this to spamSample2.txt,
 % emailSample1.txt or emailSample2.txt to see different predictions on
 % different emails types). Try your own emails as well!
-filename = 'spamSample2.txt';
+filename = 'spamSample1.txt';
 
 % Read and predict
 file_contents = readFile(filename);
