@@ -40,14 +40,51 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+%  for j=1:num_users
+%      a = R(:, j);
+%      n = 1:num_movies;
+%      flaged = arrayfun(@(x) ismember(1, a(x)), n);
+%      flaged = n(flaged);
+%      for i=1:length(flaged)
+%          J = J + (Theta(j,:) * X(flaged(i),:)' - Y(flaged(i),j))^2;
+%      end
+%  
+%  end
+
+J = sum(sum(R'.*((Theta*X' - Y').^2)));
+J = J/2;
+%J = J + (lambda/2)*(sum(sum(Theta.^2)) + sum(sum(X.^2)));
+
+X_grad = (R'.*(Theta*X' - Y'))'*Theta;
+Theta_grad=(R'.*(Theta*X' - Y')*X);
+
+% % % for i=1:num_movies
+% % %     a = R(i,:);
+% % %     n = 1:num_users;
+% % %     flaged = arrayfun(@(x) ismember(1, a(x)), n);
+% % %     flaged = n(flaged);
+% % %     for j = 1:length(flaged)
+% % %         X_grad(i,:) = X_grad(i,:) + (Theta(flaged(j),:) * X(i,:)' - Y(i,flaged(j)))*Theta(flaged(j),:);
+% % %     end
+% % % end
+% % % X_grad = X_grad + X.*lambda;
+% % % 
+% % % for j = 1:num_users
+% % %     a = R(:,j);
+% % %     n = 1:num_movies;
+% % %     flaged = arrayfun(@(x) ismember(1, a(x)), n);
+% % %     flaged = n(flaged);
+% % %     for i = 1:length(flaged)
+% % %         Theta_grad(j,:) = Theta_grad(j,:) + (Theta(j,:) * X(flaged(i),:)' - Y(flaged(i),j))*X(flaged(i),:);
+% % %     end
+% % % end
+% % % 
+% % % Theta_grad = Theta_grad + Theta.*lambda;
 
 
-
-
-
-
-
-
+J = J + (lambda/2)*(sum(sum(Theta.^2)) + sum(sum(X.^2)));
+X_grad = X_grad + X.*lambda;
+Theta_grad = Theta_grad + Theta.*lambda;
 
 
 
